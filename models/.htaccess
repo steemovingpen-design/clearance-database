@@ -1,0 +1,7 @@
+# Allow Apache to serve face-api shard weight files smoothly
+<IfModule mod_mime.c>
+    AddType application/octet-stream .
+    AddType application/octet-stream -shard1
+    AddType application/octet-stream -shard2
+    ForceType application/octet-stream
+</IfModule>

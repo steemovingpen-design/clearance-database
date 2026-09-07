@@ -1,0 +1,227 @@
+/* ==========================================================================
+   ADVANCED CSS3 PORTAL THEME OVERRIDE
+   Maps directly to existing HTML/PHP DOM structures without modifying code logic.
+   ========================================================================== */
+
+:root {
+    --bg-main: #f1f5f9;
+    --panel-bg: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    
+    /* Advanced CSS3 Color Gradients */
+    --primary-grad: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+    --success-grad: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    --danger-grad: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    --warning-grad: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    
+    /* Layered Box Shadows (CSS3 Ambient Glow) */
+    --shadow-sm: 0 2px 4px 0 rgba(15, 23, 42, 0.05);
+    --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.05), 0 8px 10px -6px rgba(15, 23, 42, 0.05);
+    --shadow-lg: 0 20px 25px -5px rgba(59, 130, 246, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    
+    /* Transitions */
+    --ease-interact: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth Canvas Base */
+body { 
+    font-family: 'Inter', system-ui, -apple-system, sans-serif; 
+    background-color: var(--bg-main); 
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.03) 0px, transparent 50%),
+        radial-gradient(at 50% 0%, rgba(59, 130, 246, 0.02) 0px, transparent 50%);
+    color: var(--text-main);
+    margin: 0; 
+    padding: 40px 20px;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* CSS3 Entry Animation Container */
+.dashboard-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* --- MANAGEMENT HEADER PANEL --- */
+.header-bar { 
+    background: var(--panel-bg); 
+    padding: 28px 40px; 
+    border-radius: 20px; 
+    box-shadow: var(--shadow-md); 
+    margin-bottom: 35px;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+}
+.header-bar h1 { 
+    font-size: 26px; 
+    font-weight: 800; 
+    letter-spacing: -0.5px;
+    background: linear-gradient(to right, #0f172a, #334155);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.badge-unit { 
+    background: linear-gradient(135deg, #e0e7ff 0%, #e0e7ff 100%); 
+    color: #4338ca; 
+    padding: 6px 16px; 
+    border-radius: 12px; 
+    font-size: 11px; 
+    font-weight: 800; 
+    letter-spacing: 0.75px;
+}
+
+/* Log Out Button Micro-interactions */
+.logout-btn { 
+    color: #b91c1c; 
+    font-weight: 600; 
+    text-decoration: none; 
+    background: #fef2f2;
+    padding: 12px 22px; 
+    border-radius: 12px; 
+    font-size: 13px;
+    border: 1px solid #fee2e2;
+    transition: var(--ease-interact);
+}
+.logout-btn:hover { 
+    background: var(--danger-grad); 
+    color: white; 
+    border-color: transparent;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3);
+}
+
+/* --- STATISTICAL GRID CARDS --- */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 35px;
+}
+.stat-card {
+    background: var(--panel-bg);
+    padding: 24px;
+    border-radius: 20px;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    box-shadow: var(--shadow-sm);
+    transition: var(--ease-interact);
+}
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+.stat-card::before { display: none; } /* Remove old side border fallback */
+
+/* Distinct Card Accent Colors using CSS3 Borders */
+.stat-card.total { border-top: 4px solid #4f46e5; }
+.stat-card.pending { border-top: 4px solid #f59e0b; }
+.stat-card.approved { border-top: 4px solid #10b981; }
+.stat-card.rejected { border-top: 4px solid #ef4444; }
+
+.stat-label { font-size: 11px; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; }
+.stat-value { font-size: 34px; font-weight: 800; margin-top: 8px; color: var(--text-main); letter-spacing: -1px; }
+
+/* --- CORE CONSOLE AREA --- */
+.main-card { 
+    background: var(--panel-bg); 
+    padding: 40px; 
+    border-radius: 24px; 
+    box-shadow: var(--shadow-md); 
+    border: 1px solid rgba(226, 232, 240, 0.8);
+}
+.main-card h2 { font-size: 20px; font-weight: 800; letter-spacing: -0.3px; }
+
+/* CSS3 Custom Webkit Scrollbars for Table Responsiveness */
+.table-responsive { 
+    width: 100%; 
+    overflow-x: auto; 
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+}
+.table-responsive::-webkit-scrollbar { height: 6px; }
+.table-responsive::-webkit-scrollbar-track { background: #f1f5f9; }
+.table-responsive::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+/* --- MODERN DATA GRID VIEW --- */
+table { width: 100%; border-collapse: separate; border-spacing: 0; }
+th { 
+    background: #f8fafc; 
+    color: var(--text-muted); 
+    font-size: 11px; 
+    font-weight: 700; 
+    letter-spacing: 0.5px;
+    padding: 18px 24px;
+    border-bottom: 2px solid #e2e8f0;
+}
+td { 
+    padding: 20px 24px; 
+    border-bottom: 1px solid #f1f5f9; 
+    color: #475569;
+    font-size: 14px;
+    transition: var(--ease-interact);
+}
+tr:hover td { background-color: #f8fafc; }
+tr:last-child td { border-bottom: none; }
+
+/* Typography Cosmetics */
+code { background: #f1f5f9; padding: 6px 10px; border-radius: 8px; font-family: monospace; color: #334155; border: 1px solid #e2e8f0; }
+.student-name { font-weight: 700; color: var(--text-main); }
+.doc-link { color: #3b82f6; font-weight: 600; text-decoration: none; transition: var(--ease-interact); }
+.doc-link:hover { color: #1d4ed8; text-decoration: underline; }
+
+/* --- BUTTON MATRIX (MICRO-ACTIONS) --- */
+.action-form { display: inline-flex; gap: 10px; }
+.btn-action { 
+    border: none; 
+    padding: 9px 16px; 
+    font-weight: 700; 
+    border-radius: 10px; 
+    cursor: pointer; 
+    font-size: 12px; 
+    color: white; 
+    transition: var(--ease-interact);
+}
+.btn-approve { background: var(--success-grad); }
+.btn-approve:hover { transform: translateY(-1.5px); box-shadow: 0 8px 20px -4px rgba(16, 185, 129, 0.4); }
+.btn-reject { background: var(--danger-grad); }
+.btn-reject:hover { transform: translateY(-1.5px); box-shadow: 0 8px 20px -4px rgba(239, 68, 68, 0.4); }
+.btn-action:active { transform: scale(0.95); }
+
+/* --- STATUS PILLS --- */
+.status-pill { 
+    padding: 6px 14px; 
+    border-radius: 10px; 
+    font-size: 11px; 
+    font-weight: 800; 
+    letter-spacing: 0.5px;
+}
+.status-Pending { background: #fef3c7; color: #d97706; box-shadow: inset 0 0 0 1px rgba(217, 119, 6, 0.15); }
+.status-Approved { background: #d1fae5; color: #065f46; box-shadow: inset 0 0 0 1px rgba(5, 150, 105, 0.15); }
+.status-Rejected { background: #fee2e2; color: #b91c1c; box-shadow: inset 0 0 0 1px rgba(220, 38, 38, 0.15); }
+
+/* --- SYSTEM ALERT BANNERS --- */
+.alert { padding: 16px 24px; margin-bottom: 30px; border-radius: 16px; font-weight: 600; font-size: 14px; box-shadow: var(--shadow-sm); animation: pulseAlert 2s infinite ease-in-out; }
+.alert-success { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+.alert-danger { background: #fff5f5; color: #991b1b; border: 1px solid #fca5a5; }
+
+/* ==========================================================================
+   CSS3 KEYFRAME ANIMATION TIMELINES
+   ========================================================================== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulseAlert {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.005); }
+}
