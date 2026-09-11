@@ -8,3 +8,7 @@ Desktop.ini
 .idea/
 *.sublime-workspace
 *.sublime-project
+
+# Uploaded files (keep folder, ignore contents)
+uploads/*
+!uploads/.gitkeep

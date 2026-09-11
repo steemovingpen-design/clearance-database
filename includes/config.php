@@ -4,12 +4,14 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-$db_host = "localhost";
-$db_user = "root";
-$db_pass = "";
-$db_name = "clearance_system";
+// Use Railway environment variables if available, otherwise fall back to local XAMPP defaults
+$db_host = getenv("MYSQLHOST")     ?: "localhost";
+$db_user = getenv("MYSQLUSER")     ?: "root";
+$db_pass = getenv("MYSQLPASSWORD") ?: "";
+$db_name = getenv("MYSQLDATABASE") ?: "clearance_system";
+$db_port = getenv("MYSQLPORT")     ?: 3306;
 
-$conn = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
+$conn = mysqli_connect($db_host, $db_user, $db_pass, $db_name, (int)$db_port);
 
 if (!$conn) {
     die("Database Connection Failed: " . mysqli_connect_error());
