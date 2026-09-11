@@ -1,46 +1,36 @@
-# Use official PHP with Apache
-FROM php:8.2-apache
+FROM ubuntu:22.04
 
-# Fix Apache MPM conflict: forcefully remove ALL mpm module symlinks, then enable only prefork
-RUN rm -f /etc/apache2/mods-enabled/mpm_event.conf \
-          /etc/apache2/mods-enabled/mpm_event.load \
-          /etc/apache2/mods-enabled/mpm_worker.conf \
-          /etc/apache2/mods-enabled/mpm_worker.load \
-          /etc/apache2/mods-enabled/mpm_prefork.conf \
-          /etc/apache2/mods-enabled/mpm_prefork.load \
-    && ln -s /etc/apache2/mods-available/mpm_prefork.conf /etc/apache2/mods-enabled/mpm_prefork.conf \
-    && ln -s /etc/apache2/mods-available/mpm_prefork.load /etc/apache2/mods-enabled/mpm_prefork.load
+ENV DEBIAN_FRONTEND=noninteractive
 
-# Install required PHP extensions
+# Install Apache + PHP + MySQL extension (Ubuntu auto-enables mpm_prefork with mod_php - no conflicts)
 RUN apt-get update && apt-get install -y \
-    libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    zip \
-    unzip \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd mysqli pdo pdo_mysql
+    apache2 \
+    php8.1 \
+    php8.1-mysql \
+    php8.1-gd \
+    php8.1-mbstring \
+    php8.1-curl \
+    php8.1-zip \
+    libapache2-mod-php8.1 \
+    && a2enmod rewrite \
+    && rm -rf /var/lib/apt/lists/*
 
-# Enable Apache mod_rewrite
-RUN a2enmod rewrite
+# Configure Apache
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+RUN sed -i 's|/var/www/html|/var/www/html|g' /etc/apache2/sites-available/000-default.conf
 
-# Set working directory
-WORKDIR /var/www/html
+# Allow .htaccess overrides
+RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 
-# Copy all project files
+# Copy project files
 COPY . /var/www/html/
 
-# Set permissions for uploads directory
+# Set permissions
 RUN mkdir -p /var/www/html/uploads \
     && chmod -R 775 /var/www/html/uploads \
-    && chown -R www-data:www-data /var/www/html
-
-# Apache config to allow .htaccess overrides
-RUN echo '<Directory /var/www/html>\n\
-    Options Indexes FollowSymLinks\n\
-    AllowOverride All\n\
-    Require all granted\n\
-</Directory>' > /etc/apache2/conf-available/clearance.conf \
-    && a2enconf clearance
+    && chown -R www-data:www-data /var/www/html \
+    && rm -f /var/www/html/Dockerfile
 
 EXPOSE 80
+
+CMD ["apache2ctl", "-D", "FOREGROUND"]
